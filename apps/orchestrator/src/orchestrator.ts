@@ -11,7 +11,7 @@ export class ProviderOrchestrator {
   private providers: Map<string, AIProvider>
 
   constructor() {
-    this.providers = new Map([
+    this.providers = new Map<string, AIProvider>([
       ['gpt', new GPTProvider()],
       ['claude', new ClaudeProvider()],
       ['gemini', new GeminiProvider()],
