@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://orchestrator:3001
+    depends_on:
+      - orchestrator
+    networks:
+      - multi-ai-network
+
+  orchestrator:
+    build:
+      context: .
+      dockerfile: apps/orchestrator/Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - ORCHESTRATOR_PORT=3001
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - GITHUB_COPILOT_TOKEN=${GITHUB_COPILOT_TOKEN}
+      - TIA_WORKS_API_KEY=${TIA_WORKS_API_KEY}
+    networks:
+      - multi-ai-network
+
+networks:
+  multi-ai-network:
+    driver: bridge
